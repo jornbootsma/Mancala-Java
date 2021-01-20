@@ -11,13 +11,28 @@ package mancala.domain;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class FooTest {
+public class PlayingBowlTest {
     // Define a test starting with @Test. The test is like
     // a small main method - you need to setup everything
     // and you can write any arbitrary Java code in it.
     @Test 
     public void aNormalBorlStartsWith4Stones() {
-        Foo foo = new Foo();
-        assertEquals(42, foo.theAnswerToLifeTheUniverseAndEverything());
+        PlayingBowl bowl = new PlayingBowl(1);
+        assertEquals(4, bowl.getNumberOfStones());
     }
+    
+    @Test
+    public void bowlBelongsToPlayer1() {
+    	PlayingBowl bowl = new PlayingBowl(1);
+    	assertEquals(1, bowl.getPlayerID());
+    }
+    
+    @Test
+    public void bowlBelongsToPlayer2() {
+    	PlayingBowl bowl = new PlayingBowl(2);
+    	assertEquals(2, bowl.getPlayerID());
+    }
+    
+    
+    
 }
