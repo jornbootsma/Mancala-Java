@@ -80,10 +80,4 @@ public abstract class Bowl {
 		}
 		return number;
 	}
-	
-	public static void main(String[] args) {
-    	Bowl bowl1 = new PlayingBowl();
-    	int numb = bowl1.getNumbOfBowls();
-    	System.out.println(numb);
-	}
 }
