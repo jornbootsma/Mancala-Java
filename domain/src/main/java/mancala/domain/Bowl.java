@@ -1,24 +1,61 @@
 package mancala.domain;
 
-// Make your own mancala implementation using your design.
-// You can take this stub as an example how to make a 
-// class inside a package and how to test it.
 public abstract class Bowl {
 
-	protected int NUMBER_OF_STONES;
-	protected int PLAYER_ID;
+	protected static final int BOWLS_PER_PLAYER = 6;
+	protected static int NUMB_OF_CREATED_BOWLS = 0;
 	
-	public Bowl(int numbOfStones, int playerID) {
-		this.NUMBER_OF_STONES = numbOfStones;
-		this.PLAYER_ID = playerID;
+	protected int NUMBER_OF_STONES;
+	
+	protected Bowl neighbour;
+	private static Bowl firstBowl;
+	
+	private Player player;
+	
+	public Bowl() {
+		this.player = new Player();
+		firstBowl = this;
+		this.setNeighbour();
 	}
 	
-    public int getNumberOfStones() {
+	public Bowl(Player player) {
+		this.player = player;
+		this.setNeighbour();
+	}
+	
+	protected abstract void setNeighbour();
+	
+	protected abstract void setNumberOfStartingStones();
+	
+	public abstract Bowl getOpposite();
+    
+    public abstract Bowl getKalahaOfActivePlayer();
+    
+	public Player getPlayer() {
+		return this.player;
+	}
+	
+	public int getNumberOfStones() {
         return this.NUMBER_OF_STONES;
     }
     
-    public int getPlayerID() {
-    	return this.PLAYER_ID;
+    public Bowl getFirstBowl() {
+    	return firstBowl;
     }
     
+    public Bowl getNeighbour() {
+    	return this.neighbour;
+    }
+    
+	public boolean belongsToActivePlayer() {
+		return this.getPlayer().isActivePlayer();
+	}
+    
+    protected void addOneStone() {
+    	this.NUMBER_OF_STONES ++;
+    }
+    
+    protected abstract void passStonesToOwnKalaha(int stones);
+    
+    protected abstract void passStonesAndKeepOne(int stones);
 }

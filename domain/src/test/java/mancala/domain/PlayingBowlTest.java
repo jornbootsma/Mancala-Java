@@ -1,38 +1,84 @@
 package mancala.domain;
 
-// Your test class should be in the same 
-// package as the class you're testing.
-// Usually the test directory mirrors the
-// main directory 1:1. So for each class in src/main,
-// there is a class in src/test.
-
-// Import our test dependencies. We import the Test-attribute
-// and a set of assertions.
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 public class PlayingBowlTest {
-    // Define a test starting with @Test. The test is like
-    // a small main method - you need to setup everything
-    // and you can write any arbitrary Java code in it.
-    @Test 
-    public void aNormalBorlStartsWith4Stones() {
-        PlayingBowl bowl = new PlayingBowl(1);
-        assertEquals(4, bowl.getNumberOfStones());
+	private PlayingBowl playingBowl;
+	
+	@BeforeEach
+	public void setUp() {
+		playingBowl = new PlayingBowl();
+	}
+	
+    @Test
+    public void playingBowlStartsFourStones() {
+        int numbOfStones = playingBowl.getNumberOfStones();
+        assertEquals(4, numbOfStones);
+    }
+    
+//    @Test
+//    public void boardHas14Bowls() {
+//    	
+//    }
+    
+    @Test
+    public void hasStones() {
+    	boolean hasStones = playingBowl.hasStones();
+    	assertTrue(hasStones);
+    }
+    
+//    @Test
+//    public void getOpposite() {
+//    	Bowl opposite = playingBowl.getOpposite();
+//    	
+//    }
+    
+    @Test
+    public void makeBowlEmpty() {
+    	playingBowl.makeEmpty();
+    	assertFalse(playingBowl.hasStones());
     }
     
     @Test
-    public void bowlBelongsToPlayer1() {
-    	PlayingBowl bowl = new PlayingBowl(1);
-    	assertEquals(1, bowl.getPlayerID());
+    public void passAllStonesToKalaha() {
+    	int initialAmount = playingBowl.getKalahaOfActivePlayer().getNumberOfStones();
+    	playingBowl.passStonesToOwnKalaha(3);
+    	int newAmount = playingBowl.getKalahaOfActivePlayer().getNumberOfStones();
+    	assertEquals(initialAmount, newAmount - 3);
     }
     
     @Test
-    public void bowlBelongsToPlayer2() {
-    	PlayingBowl bowl = new PlayingBowl(2);
-    	assertEquals(2, bowl.getPlayerID());
+    public void emptyBowlAndPassAllStonesToKalaha() {
+    	int initialAmountOfKalaha = playingBowl.getKalahaOfActivePlayer().getNumberOfStones();
+    	int initialAmountOfPlayingBowl = playingBowl.getNumberOfStones();
+    	playingBowl.emptyBowlAndPassAllStonesToKalaha();
+    	int newAmountOfKalaha = playingBowl.getKalahaOfActivePlayer().getNumberOfStones();
+    	assertFalse(playingBowl.hasStones());
+    	assertEquals(newAmountOfKalaha, initialAmountOfKalaha + initialAmountOfPlayingBowl);
     }
     
+    @Test
+    public void performMoveAndBowlIsEmpty() {
+    	playingBowl.playBowl();
+    	assertFalse(playingBowl.hasStones());
+    }
     
+    @Test
+    public void passStonesAndKeepOne_BowlHasOneExtraStone() {
+    	int initialAmount = playingBowl.getNumberOfStones();
+    	playingBowl.passStonesAndKeepOne(3);
+    	int newAmount = playingBowl.getNumberOfStones();
+    	assertEquals(initialAmount, newAmount - 1);
+    }
     
+    @Test
+    public void performMoveAndNeighbourHasOneExtraStone() {
+    	int initialAmount = playingBowl.getNeighbour().getNumberOfStones();
+    	playingBowl.playBowl();
+    	int newAmount = playingBowl.getNeighbour().getNumberOfStones();
+    	assertEquals(initialAmount, newAmount - 1);
+    }
 }
