@@ -23,8 +23,8 @@ public class Kalaha extends Bowl {
 	}
 	
 	@Override
-	protected void setNumberOfStartingStones() {
-		this.NUMBER_OF_STONES = STARTING_NUMBER_OF_STONES;
+	public int getNumberOfStartingStones() {
+		return STARTING_NUMBER_OF_STONES;
 	}
 	
 	@Override

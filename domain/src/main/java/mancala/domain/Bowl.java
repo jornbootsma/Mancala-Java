@@ -2,7 +2,7 @@ package mancala.domain;
 
 public abstract class Bowl {
 
-	protected static final int BOWLS_PER_PLAYER = 6;
+	private static final int BOWLS_PER_PLAYER = 6;
 	protected static int NUMB_OF_CREATED_BOWLS = 0;
 	
 	protected int NUMBER_OF_STONES;
@@ -27,7 +27,11 @@ public abstract class Bowl {
 	
 	protected abstract void setNeighbour();
 	
-	protected abstract void setNumberOfStartingStones();
+	private void setNumberOfStartingStones() {
+		this.NUMBER_OF_STONES = this.getNumberOfStartingStones();
+	}
+	
+	public abstract int getNumberOfStartingStones();
 	
 	public abstract Bowl getOpposite();
     
@@ -40,6 +44,10 @@ public abstract class Bowl {
 	public int getNumberOfStones() {
         return this.NUMBER_OF_STONES;
     }
+	
+	public int getBowlsPerPlayer() {
+		return BOWLS_PER_PLAYER;
+	}
     
     public Bowl getFirstBowl() {
     	return firstBowl;
@@ -60,4 +68,22 @@ public abstract class Bowl {
     protected abstract void passStonesToOwnKalaha(int stones);
     
     protected abstract void passStonesAndKeepOne(int stones);
+
+	public int getNumbOfBowls() {
+		int number = 1;
+		return this.getNumbOfBowls(number);
+	}
+	
+	public int getNumbOfBowls(int number) {
+		if (this.getNeighbour() != firstBowl) {
+			return this.getNeighbour().getNumbOfBowls(number + 1);
+		}
+		return number;
+	}
+	
+	public static void main(String[] args) {
+    	Bowl bowl1 = new PlayingBowl();
+    	int numb = bowl1.getNumbOfBowls();
+    	System.out.println(numb);
+	}
 }

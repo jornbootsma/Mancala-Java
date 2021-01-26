@@ -32,4 +32,10 @@ public class BowlTest {
     	Bowl kalaha = bowl.getKalahaOfActivePlayer();
     	assertTrue((kalaha.getPlayer() == bowl.getPlayer()) && (bowl.getPlayer().isActivePlayer()));
     }
+	
+	@Test
+	public void boardHas14Bowls() {
+		int numbOfBowls = bowl.getNumbOfBowls();
+		assertEquals(numbOfBowls, 14);
+	}
 }

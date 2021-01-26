@@ -13,14 +13,9 @@ public class PlayingBowl extends Bowl {
 	}
 	
 	@Override
-	protected void setNumberOfStartingStones() {
-		this.NUMBER_OF_STONES = STARTING_NUMBER_OF_STONES;
-	}
-	
-	@Override
 	protected void setNeighbour() {
 		NUMB_OF_CREATED_BOWLS ++;
-		if (NUMB_OF_CREATED_BOWLS < BOWLS_PER_PLAYER) {
+		if (NUMB_OF_CREATED_BOWLS < this.getBowlsPerPlayer()) {
 			this.neighbour = new PlayingBowl(this.getPlayer());
 		} else {
 			this.neighbour = new Kalaha(this.getPlayer());
@@ -29,6 +24,11 @@ public class PlayingBowl extends Bowl {
 	
 	public boolean hasStones() {
 		return this.getNumberOfStones() > 0;
+	}
+	
+	@Override
+	public int getNumberOfStartingStones() {
+		return STARTING_NUMBER_OF_STONES;
 	}
 	
 	@Override
