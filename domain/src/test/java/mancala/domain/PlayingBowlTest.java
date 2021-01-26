@@ -19,22 +19,11 @@ public class PlayingBowlTest {
         assertEquals(4, numbOfStones);
     }
     
-//    @Test
-//    public void boardHas14Bowls() {
-//    	
-//    }
-    
     @Test
     public void hasStones() {
     	boolean hasStones = playingBowl.hasStones();
     	assertTrue(hasStones);
     }
-    
-//    @Test
-//    public void getOpposite() {
-//    	Bowl opposite = playingBowl.getOpposite();
-//    	
-//    }
     
     @Test
     public void makeBowlEmpty() {
