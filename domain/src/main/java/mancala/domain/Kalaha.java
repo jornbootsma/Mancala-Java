@@ -6,12 +6,10 @@ public class Kalaha extends Bowl {
 	
 	public Kalaha() {
 		super();
-		this.setNumberOfStartingStones();
 	}
 	
 	public Kalaha(Player player) {
 		super(player);
-		this.setNumberOfStartingStones();
 	}
 	
 	@Override

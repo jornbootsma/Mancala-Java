@@ -6,12 +6,10 @@ public class PlayingBowl extends Bowl {
 	
 	public PlayingBowl() {
 		super();
-		this.setNumberOfStartingStones();
 	}
 	
 	public PlayingBowl(Player player) {
 		super(player);
-		this.setNumberOfStartingStones();
 	}
 	
 	@Override
