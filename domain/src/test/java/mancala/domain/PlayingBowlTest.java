@@ -26,48 +26,22 @@ public class PlayingBowlTest {
     }
     
     @Test
-    public void makeBowlEmpty() {
-    	playingBowl.makeEmpty();
-    	assertFalse(playingBowl.hasStones());
-    }
-    
-    @Test
     public void passAllStonesToKalaha() {
-    	int initialAmount = playingBowl.getKalahaOfActivePlayer().getNumberOfStones();
-    	playingBowl.passStonesToOwnKalaha(3);
+    	playingBowl.passStonesToKalahaOfActivePlayer(2);
     	int newAmount = playingBowl.getKalahaOfActivePlayer().getNumberOfStones();
-    	assertEquals(initialAmount, newAmount - 3);
-    }
-    
-    @Test
-    public void emptyBowlAndPassAllStonesToKalaha() {
-    	int initialAmountOfKalaha = playingBowl.getKalahaOfActivePlayer().getNumberOfStones();
-    	int initialAmountOfPlayingBowl = playingBowl.getNumberOfStones();
-    	playingBowl.emptyBowlAndPassAllStonesToKalaha();
-    	int newAmountOfKalaha = playingBowl.getKalahaOfActivePlayer().getNumberOfStones();
-    	assertFalse(playingBowl.hasStones());
-    	assertEquals(newAmountOfKalaha, initialAmountOfKalaha + initialAmountOfPlayingBowl);
+    	assertEquals(2, newAmount);
     }
     
     @Test
     public void performMoveAndBowlIsEmpty() {
     	playingBowl.playBowl();
-    	assertFalse(playingBowl.hasStones());
-    }
-    
-    @Test
-    public void passStonesAndKeepOne_BowlHasOneExtraStone() {
-    	int initialAmount = playingBowl.getNumberOfStones();
-    	playingBowl.passStonesAndKeepOne(3);
-    	int newAmount = playingBowl.getNumberOfStones();
-    	assertEquals(initialAmount, newAmount - 1);
+    	assertTrue(playingBowl.isEmpty());
     }
     
     @Test
     public void performMoveAndNeighbourHasOneExtraStone() {
-    	int initialAmount = playingBowl.getNeighbour().getNumberOfStones();
     	playingBowl.playBowl();
     	int newAmount = playingBowl.getNeighbour().getNumberOfStones();
-    	assertEquals(initialAmount, newAmount - 1);
+    	assertEquals(5, newAmount);
     }
 }

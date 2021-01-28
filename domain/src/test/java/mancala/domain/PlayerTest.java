@@ -5,25 +5,17 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 public class PlayerTest {
-	Player playerA = new Player("A");
-	Player playerB = new Player("B");
-	Player player = new Player("A", "B");
+	Player player = new Player("1", "2");
 	
 	@Test
-	public void nameOfPlayer() {
-		assertEquals("A", playerA.getName());
-	}
-	
-	@Test
-	public void setOpponent() {
-		playerA.setOpponent(playerB);
-		assertEquals(playerA.getOpponent().getName(), playerB.getName());
+	public void getName() {
+		assertEquals("1", player.getName());
 	}
 	
 	@Test
 	public void hasOpponent() {
 		Player opponent = player.getOpponent();
-		assertNotEquals(opponent, null);
+		assertEquals("2", opponent.getName());
 	}
 	
 	@Test
@@ -35,13 +27,24 @@ public class PlayerTest {
 	@Test
 	public void changeActivePlayer() {
 		player.changeActivePlayer();
-		boolean opponenIsActivePlayer = player.getOpponent().isActivePlayer();
-		assertTrue(opponenIsActivePlayer);
+		boolean opponentIsActivePlayer = player.getOpponent().isActivePlayer();
+		assertTrue(opponentIsActivePlayer);
 	}
 	
 	@Test
 	public void getActivePlayer() {
-		String activePlayer = player.getActivePlayer();
-		assertEquals(activePlayer, "A");
+		Player activePlayer = player.getActivePlayer();
+		assertEquals("1", activePlayer.getName());
+	}
+	
+	@Test
+	public void isWinner() {
+		assertFalse(player.isWinner());
+	}
+	
+	@Test
+	public void setWinner() {
+		player.setWinner();
+		assertTrue(player.isWinner());
 	}
 }

@@ -20,17 +20,8 @@ public class KalahaTest {
     }
 	
 	@Test
-	public void getOpposite() {
+	public void getOppositeAndReturnItself() {
 		Kalaha opposite = kalaha.getOpposite();
 		assertEquals(kalaha, opposite);
 	}
-	
-	@Test
-    public void addStones() {
-    	int initialAmount = kalaha.getNumberOfStones();
-    	kalaha.addStones(3);
-    	int newAmount = kalaha.getNumberOfStones();
-    	assertEquals(initialAmount, newAmount - 3);
-    }
-	
 }

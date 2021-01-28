@@ -2,12 +2,13 @@ package mancala.domain;
 
 public class Player {
 	
-	private final static String firstPlayerName = "A";
-	private final static String secondPlayerName = "B";
+	private final static String firstPlayerName = "1";
+	private final static String secondPlayerName = "2";
 	
 	private String name;
 	private Player opponent;
 	private boolean activePlayer;
+	private boolean isWinner = false;
 	
 	public Player() {
 		this(firstPlayerName, secondPlayerName);
@@ -23,7 +24,7 @@ public class Player {
 		this.setActivePlayer();
 	}
 	
-	protected void setOpponent(Player opponent) {
+	private void setOpponent(Player opponent) {
 		this.opponent = opponent;
 		opponent.opponent = this;
 	}
@@ -41,11 +42,11 @@ public class Player {
 		return this.opponent;
 	}
 	
-	public String getActivePlayer() {
+	public Player getActivePlayer() {
 		if (this.isActivePlayer()) {
-			return this.name;
+			return this;
 		} else {
-			return this.opponent.name;
+			return this.opponent;
 		}
 	}
 	
@@ -57,5 +58,21 @@ public class Player {
 		this.activePlayer = !this.activePlayer;
 		this.opponent.activePlayer = !this.opponent.activePlayer;
 	}
-
+	
+	protected void setWinner() {
+		this.isWinner = true;
+	}
+	
+	public boolean isWinner() {
+		return this.isWinner;
+	}
+	
+	public Player getWinner() {
+		if (this.isWinner()) {
+			return this;
+		} else if (this.getOpponent().isWinner()){
+			return this.getOpponent();
+		}
+		return null;
+	}
 }

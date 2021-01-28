@@ -8,15 +8,14 @@ public class Kalaha extends Bowl {
 		super();
 	}
 	
-	public Kalaha(Player player) {
-		super(player);
+	public Kalaha(Player player, Bowl firstBowl, int numbOfCreatedBowls) {
+		super(player, firstBowl, numbOfCreatedBowls);
 	}
 	
 	@Override
-	protected void setNeighbour() {
-		NUMB_OF_CREATED_BOWLS = 0;
+	protected void setNeighbour(Bowl firstBowl, int numbOfCreatedBowls) {
 		if (this.belongsToActivePlayer()) {
-			this.neighbour = new PlayingBowl(this.getPlayer().getOpponent());
+			this.neighbour = new PlayingBowl(this.getPlayer().getOpponent(), firstBowl);
 		} else {
 			this.neighbour = this.getFirstBowl();
 		}
@@ -41,28 +40,45 @@ public class Kalaha extends Bowl {
 		}
 	}
 	
-	protected void addStones(int number) {
+	private void addStones(int number) {
 		this.NUMBER_OF_STONES += number;
 	}
 	
 	@Override
-	protected void passStonesToOwnKalaha(int stones) {
+	protected void passStonesToKalahaOfActivePlayer(int stones) {
 		if (this.belongsToActivePlayer()) {
 			this.addStones(stones);
 		} else {
-			this.getNeighbour().passStonesToOwnKalaha(stones);
+			this.getNeighbour().passStonesToKalahaOfActivePlayer(stones);
 		}
 	}
 	
 	@Override
-	protected void passStonesAndKeepOne(int stones) {
-		if (!this.belongsToActivePlayer()) {
-			this.getNeighbour().passStonesAndKeepOne(stones);
-		} else {
+	protected void keepOneStoneAndPassRemaining(int stones) {
+		if (this.belongsToActivePlayer()) {
 			this.addOneStone();
 			if (stones > 1) {
-				this.getNeighbour().passStonesAndKeepOne(stones - 1);
+				this.getNeighbour().keepOneStoneAndPassRemaining(stones - 1);
 			}
+		} else {
+			this.getNeighbour().keepOneStoneAndPassRemaining(stones);
 		}
+	}
+	
+	@Override
+	public Bowl getFirstBowlOfOtherPlayer() {
+		return this.getNeighbour();
+	}
+	
+	@Override
+	public boolean allBowlsOfPlayerAreEmpty() {
+		// You can only get here if all the previous
+		// balls of this player are empty.
+		return true;
+	}
+	
+	@Override
+	public int getFinalNumberOfStonesOfPlayer() {
+		return this.getNumberOfStones();
 	}
 }

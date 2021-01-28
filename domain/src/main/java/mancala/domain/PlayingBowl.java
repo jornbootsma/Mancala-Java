@@ -8,22 +8,21 @@ public class PlayingBowl extends Bowl {
 		super();
 	}
 	
-	public PlayingBowl(Player player) {
-		super(player);
+	public PlayingBowl(Player player, Bowl firstBowl) {
+		super(player, firstBowl);
+	}
+	
+	public PlayingBowl(Player player, Bowl firstBowl, int numbOfCreatedBowls) {
+		super(player, firstBowl, numbOfCreatedBowls);
 	}
 	
 	@Override
-	protected void setNeighbour() {
-		NUMB_OF_CREATED_BOWLS ++;
-		if (NUMB_OF_CREATED_BOWLS < this.getBowlsPerPlayer()) {
-			this.neighbour = new PlayingBowl(this.getPlayer());
+	protected void setNeighbour(Bowl firstBowl, int numbOfCreatedBowls) {
+		if (this.NUMB_OF_CREATED_BOWLS < this.getTotalNumberOfBowlsPerPlayer()) {
+			this.neighbour = new PlayingBowl(this.getPlayer(), firstBowl, numbOfCreatedBowls + 1);
 		} else {
-			this.neighbour = new Kalaha(this.getPlayer());
+			this.neighbour = new Kalaha(this.getPlayer(), firstBowl, numbOfCreatedBowls + 1);
 		}
-	}
-	
-	public boolean hasStones() {
-		return this.getNumberOfStones() > 0;
 	}
 	
 	@Override
@@ -42,38 +41,76 @@ public class PlayingBowl extends Bowl {
 	}
 	
 	@Override
-	protected void passStonesToOwnKalaha(int stones) {
-		this.getNeighbour().passStonesToOwnKalaha(stones);
+	protected void passStonesToKalahaOfActivePlayer(int stones) {
+		this.getNeighbour().passStonesToKalahaOfActivePlayer(stones);
 	}
 	
-	protected void emptyBowlAndPassAllStonesToKalaha() {
-		this.passStonesToOwnKalaha(this.getNumberOfStones());
+	private void emptyBowlAndPassAllStonesToKalahaOfActivePlayer() {
+		this.passStonesToKalahaOfActivePlayer(this.getNumberOfStones());
 		this.makeEmpty();
 	}
 	
 	@Override
-	protected void passStonesAndKeepOne(int stones) {
+	protected void keepOneStoneAndPassRemaining(int stones) {
 		this.addOneStone();
 		if (stones > 1) {
-			this.getNeighbour().passStonesAndKeepOne(stones - 1);
+			this.getNeighbour().keepOneStoneAndPassRemaining(stones - 1);
 		} else {
-			if (this.belongsToActivePlayer() && this.getNumberOfStones() == 1) {
-				PlayingBowl opposite = this.getOpposite();
-				if (opposite.getNumberOfStones() > 0) {
-					opposite.emptyBowlAndPassAllStonesToKalaha();
-				}
+			if (this.canStealFromOppositeBowl()) {
+				this.stealFromOppositeBowl();
 			}
 			this.getPlayer().changeActivePlayer();
 		}
 	}
 	
-	protected void makeEmpty() {
+	private boolean canStealFromOppositeBowl() {
+		return this.belongsToActivePlayer() && this.getNumberOfStones() == 1;
+	}
+	
+	private void stealFromOppositeBowl() {
+		PlayingBowl opposite = this.getOpposite();
+		if (opposite.getNumberOfStones() > 0) {
+			this.emptyBowlAndPassAllStonesToKalahaOfActivePlayer();
+			opposite.emptyBowlAndPassAllStonesToKalahaOfActivePlayer();
+			this.checkIfGameIsOver();
+		}
+	}
+	
+	private void makeEmpty() {
 		this.NUMBER_OF_STONES = 0;
 	}
 	
 	public void playBowl() {
 		int numbOfPassingStones = this.getNumberOfStones();
 		this.makeEmpty();
-		this.getNeighbour().passStonesAndKeepOne(numbOfPassingStones);
+		this.getNeighbour().keepOneStoneAndPassRemaining(numbOfPassingStones);
+		if (this.isLastBowlOfPlayer()) {
+			this.checkIfGameIsOver();
+		}
+	}
+	
+	private boolean isLastBowlOfPlayer() {
+		if (this.getNeighbour() instanceof Kalaha) {
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public Bowl getFirstBowlOfOtherPlayer() {
+		return this.getNeighbour().getFirstBowlOfOtherPlayer();
+	}
+	
+	@Override
+	public boolean allBowlsOfPlayerAreEmpty() {
+		if (this.hasStones()) {
+			return false;
+		}
+		return this.getNeighbour().allBowlsOfPlayerAreEmpty();
+	}
+	
+	@Override
+	public int getFinalNumberOfStonesOfPlayer() {
+		return this.getNumberOfStones() + this.getNeighbour().getFinalNumberOfStonesOfPlayer();
 	}
 }

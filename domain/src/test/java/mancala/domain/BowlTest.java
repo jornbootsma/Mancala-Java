@@ -21,10 +21,9 @@ public class BowlTest {
 	
 	@Test
     public void addOneStone() {
-    	int initialAmount = bowl.getNumberOfStones();
     	bowl.addOneStone();
     	int newAmount = bowl.getNumberOfStones();
-    	assertEquals(initialAmount, newAmount - 1);
+    	assertEquals(5, newAmount);
     }
 	
 	@Test
@@ -35,7 +34,13 @@ public class BowlTest {
 	
 	@Test
 	public void boardHas14Bowls() {
-		int numbOfBowls = bowl.getNumbOfBowls();
-		assertEquals(numbOfBowls, 14);
+		int numbOfBowls = bowl.getNumberOfBowls();
+		assertEquals(14, numbOfBowls);
 	}
+	
+	@Test
+    public void gameIsOver() {
+    	boolean gameIsOver = bowl.gameIsOver();
+    	assertFalse(gameIsOver);
+    }
 }
