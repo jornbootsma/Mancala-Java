@@ -8,10 +8,6 @@ public class PlayingBowl extends Bowl {
 		super();
 	}
 	
-	public PlayingBowl(Player player, Bowl firstBowl) {
-		super(player, firstBowl);
-	}
-	
 	public PlayingBowl(Player player, Bowl firstBowl, int numbOfCreatedBowls) {
 		super(player, firstBowl, numbOfCreatedBowls);
 	}
@@ -103,10 +99,10 @@ public class PlayingBowl extends Bowl {
 	
 	@Override
 	public boolean allBowlsOfPlayerAreEmpty() {
-		if (this.hasStones()) {
-			return false;
+		if (this.isEmpty()) {
+			return this.getNeighbour().allBowlsOfPlayerAreEmpty();
 		}
-		return this.getNeighbour().allBowlsOfPlayerAreEmpty();
+		return false;
 	}
 	
 	@Override

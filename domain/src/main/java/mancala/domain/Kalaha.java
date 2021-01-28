@@ -15,7 +15,7 @@ public class Kalaha extends Bowl {
 	@Override
 	protected void setNeighbour(Bowl firstBowl, int numbOfCreatedBowls) {
 		if (this.belongsToActivePlayer()) {
-			this.neighbour = new PlayingBowl(this.getPlayer().getOpponent(), firstBowl);
+			this.neighbour = new PlayingBowl(this.getPlayer().getOpponent(), firstBowl, 1);
 		} else {
 			this.neighbour = this.getFirstBowl();
 		}

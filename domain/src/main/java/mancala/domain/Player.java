@@ -9,6 +9,7 @@ public class Player {
 	private Player opponent;
 	private boolean activePlayer;
 	private boolean isWinner = false;
+	private boolean isDraw = false;
 	
 	public Player() {
 		this(firstPlayerName, secondPlayerName);
@@ -67,12 +68,23 @@ public class Player {
 		return this.isWinner;
 	}
 	
-	public Player getWinner() {
-		if (this.isWinner()) {
-			return this;
+	protected void setDraw() {
+		this.isDraw = true;
+		this.opponent.isDraw = true;
+	}
+	
+	public boolean isDraw() {
+		return this.isDraw;
+	}
+	
+	public String getWinner() {
+		if (this.isDraw) {
+			return "Draw";
+		} else if (this.isWinner()) { 
+			return this.getName();
 		} else if (this.getOpponent().isWinner()){
-			return this.getOpponent();
+			return this.getOpponent().getName();
 		}
-		return null;
+		return "Game is not over yet";
 	}
 }

@@ -47,4 +47,15 @@ public class PlayerTest {
 		player.setWinner();
 		assertTrue(player.isWinner());
 	}
+	
+	@Test
+	public void isDraw() {
+		assertFalse(player.isDraw());
+	}
+	
+	@Test
+	public void setDraw() {
+		player.setDraw();
+		assertTrue(player.isDraw());
+	}
 }

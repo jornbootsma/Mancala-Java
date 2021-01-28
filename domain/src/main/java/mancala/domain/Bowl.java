@@ -16,10 +16,6 @@ public abstract class Bowl {
 		this(new Player(), null, 1);
 	}
 	
-	public Bowl(Player player, Bowl firstBowl) {
-		this(player, firstBowl, 1);
-	}
-	
 	public Bowl(Player player, Bowl firstBowl, int numbOfCreatedBowls) {
 		this.player = player;
 		this.setNumberOfStartingStones();
@@ -76,12 +72,8 @@ public abstract class Bowl {
     	this.NUMBER_OF_STONES ++;
     }
     
-    public boolean hasStones() {
-		return this.getNumberOfStones() > 0;
-	}
-	
 	public boolean isEmpty() {
-		return !this.hasStones();
+		return this.getNumberOfStones() == 0;
 	}
     
     protected abstract void passStonesToKalahaOfActivePlayer(int stones);
@@ -103,7 +95,6 @@ public abstract class Bowl {
 	public void checkIfGameIsOver() {
 		if (this.gameIsOver()) {
 			this.calculateWinner();
-			
 		}
 	}
 	
@@ -129,8 +120,7 @@ public abstract class Bowl {
 		} else if (numberOfStonesOfFirstPlayer < this.getNumberOfStartingStones() * BOWLS_PER_PLAYER) {
 			this.getPlayer().getOpponent().setWinner();
 		} else {
-			this.getPlayer().setWinner();
-			this.getPlayer().getOpponent().setWinner();
+			this.getPlayer().setDraw();
 		}
 	}
 	

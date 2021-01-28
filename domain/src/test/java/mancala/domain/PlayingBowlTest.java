@@ -20,13 +20,7 @@ public class PlayingBowlTest {
     }
     
     @Test
-    public void hasStones() {
-    	boolean hasStones = playingBowl.hasStones();
-    	assertTrue(hasStones);
-    }
-    
-    @Test
-    public void passAllStonesToKalaha() {
+    public void passStonesToKalahaOfActivePlayer() {
     	playingBowl.passStonesToKalahaOfActivePlayer(2);
     	int newAmount = playingBowl.getKalahaOfActivePlayer().getNumberOfStones();
     	assertEquals(2, newAmount);
