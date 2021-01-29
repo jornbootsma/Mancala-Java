@@ -38,4 +38,41 @@ public class PlayingBowlTest {
     	int newAmount = playingBowl.getNeighbour().getNumberOfStones();
     	assertEquals(5, newAmount);
     }
+    
+    @Test
+    public void performMoveSwitchesTurn() {
+    	playingBowl.playBowl();
+    	assertFalse(playingBowl.getPlayer().isActivePlayer());
+    }
+    
+    @Test
+    public void lastStoneEndsInKalahaAndStillActivePlayer() {
+    	playingBowl.NUMBER_OF_STONES = 6;
+    	assertTrue(playingBowl.getPlayer().isActivePlayer());
+    }
+    
+    @Test
+    public void playEmptyBowlDoesNotGiveStoneToNeighbour() {
+    	playingBowl.NUMBER_OF_STONES = 0;
+    	playingBowl.playBowl();
+    	assertEquals(4, playingBowl.getNeighbour().getNumberOfStones());
+    }
+    
+    @Test
+    public void endInEmptyBowlResultsInStealingFromOpposite() {
+    	Bowl opposite = playingBowl.getNeighbour().getOpposite();
+    	playingBowl.NUMBER_OF_STONES = 1;
+    	playingBowl.getNeighbour().NUMBER_OF_STONES = 0;
+    	playingBowl.playBowl();
+    	assertEquals(0, opposite.getNumberOfStones());
+    }
+    
+    @Test
+    public void endInEmptyBowlResultsInKalahaReceivingStones() {
+    	Bowl kalaha = playingBowl.getKalahaOfActivePlayer();
+    	playingBowl.NUMBER_OF_STONES = 1;
+    	playingBowl.getNeighbour().NUMBER_OF_STONES = 0;
+    	playingBowl.playBowl();
+    	assertEquals(5, kalaha.getNumberOfStones());
+    }
 }

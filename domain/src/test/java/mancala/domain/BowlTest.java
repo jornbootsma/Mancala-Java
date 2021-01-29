@@ -43,4 +43,10 @@ public class BowlTest {
     	boolean gameIsOver = bowl.gameIsOver();
     	assertFalse(gameIsOver);
     }
+	
+	@Test
+	public void gameEndsIfPlayerHasNoStones() {
+		bowl.passStonesToKalahaOfActivePlayer(bowl.getNumberOfStones());
+		bowl.NUMBER_OF_STONES = 0;
+	}
 }

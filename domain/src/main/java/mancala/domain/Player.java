@@ -8,6 +8,8 @@ public class Player {
 	private String name;
 	private Player opponent;
 	private boolean activePlayer;
+	
+	private boolean gameEnded = false;
 	private boolean isWinner = false;
 	private boolean isDraw = false;
 	
@@ -60,8 +62,13 @@ public class Player {
 		this.opponent.activePlayer = !this.opponent.activePlayer;
 	}
 	
+	private void setGameEnded() {
+		this.gameEnded = true;
+	}
+	
 	protected void setWinner() {
 		this.isWinner = true;
+		this.setGameEnded();
 	}
 	
 	public boolean isWinner() {
@@ -71,10 +78,15 @@ public class Player {
 	protected void setDraw() {
 		this.isDraw = true;
 		this.opponent.isDraw = true;
+		this.setGameEnded();
 	}
 	
 	public boolean isDraw() {
 		return this.isDraw;
+	}
+	
+	public boolean gameIsEnded() {
+		return this.gameEnded;
 	}
 	
 	public String getWinner() {

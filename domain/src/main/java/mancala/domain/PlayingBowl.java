@@ -78,10 +78,12 @@ public class PlayingBowl extends Bowl {
 	
 	public void playBowl() {
 		int numbOfPassingStones = this.getNumberOfStones();
-		this.makeEmpty();
-		this.getNeighbour().keepOneStoneAndPassRemaining(numbOfPassingStones);
-		if (this.isLastBowlOfPlayer()) {
-			this.checkIfGameIsOver();
+		if (numbOfPassingStones > 0) {
+			this.makeEmpty();
+			this.getNeighbour().keepOneStoneAndPassRemaining(numbOfPassingStones);
+			if (this.isLastBowlOfPlayer()) {
+				this.checkIfGameIsOver();
+			}
 		}
 	}
 	
