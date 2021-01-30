@@ -7,10 +7,12 @@ import org.junit.jupiter.api.Test;
 
 public class KalahaTest {
 	private Kalaha kalaha;
+	private Bowl playingBowl;
 	
 	@BeforeEach
 	public void setUp() {
-		kalaha = new Kalaha();
+		playingBowl = new PlayingBowl();
+		kalaha = (Kalaha) playingBowl.getNthNeighbour(6);
 	}
 	
 	@Test 
@@ -30,13 +32,13 @@ public class KalahaTest {
 		Bowl playingBowl = new PlayingBowl();
 		playingBowl.getPlayer().changeActivePlayer();
 		Bowl kalaha = playingBowl.getKalahaOfActivePlayer();
-		assertEquals(playingBowl.getFirstBowl(), kalaha.getNeighbour());
+		assertEquals(playingBowl.getFirstBowlOfPlayer(playingBowl.getPlayer()), kalaha.getNeighbour());
 	}
 	
 	@Test
 	public void skipKalahaOfOpponent() {
 		PlayingBowl playingBowl = new PlayingBowl();
-		playingBowl.NUMBER_OF_STONES = 13;
+		playingBowl.numberOfStones = 13;
 		playingBowl.playBowl();
 		Bowl kalaha = playingBowl.getKalahaOfActivePlayer();
 		assertEquals(0, kalaha.getNumberOfStones());

@@ -2,28 +2,33 @@ package mancala.domain;
 
 public class PlayingBowl extends Bowl {
 	
-	private static final int STARTING_NUMBER_OF_STONES = 4;
+	private static final int STARTING_NUMBER_OF_STONES_DEFAULT = 4;
 	
 	public PlayingBowl() {
 		super();
+		this.setNumberOfStartingStones(STARTING_NUMBER_OF_STONES_DEFAULT);
+		this.setNeighbour(this, 1, STARTING_NUMBER_OF_STONES_DEFAULT, BOWLS_PER_PLAYER_DEFAULT);
 	}
 	
-	public PlayingBowl(Player player, Bowl firstBowl, int numbOfCreatedBowls) {
-		super(player, firstBowl, numbOfCreatedBowls);
+	public PlayingBowl(int startingNumberOfStones, int totalNumberOfBowls) {
+		super();
+		this.setNumberOfStartingStones(startingNumberOfStones);
+		this.setNeighbour(this, 1, startingNumberOfStones, totalNumberOfBowls);
+	}
+	
+	public PlayingBowl(Player player, Bowl firstBowl, int numbOfCreatedBowls, int startingNumberOfStones, int totalNumberOfBowls) {
+		super(player);
+		this.setNumberOfStartingStones(startingNumberOfStones);
+		this.setNeighbour(firstBowl, numbOfCreatedBowls, startingNumberOfStones, totalNumberOfBowls);
 	}
 	
 	@Override
-	protected void setNeighbour(Bowl firstBowl, int numbOfCreatedBowls) {
-		if (this.NUMB_OF_CREATED_BOWLS < this.getTotalNumberOfBowlsPerPlayer()) {
-			this.neighbour = new PlayingBowl(this.getPlayer(), firstBowl, numbOfCreatedBowls + 1);
+	protected void setNeighbour(Bowl firstBowl, int numberOfCreatedBowls, int startingNumberOfStones, int totalNumberOfBowls) {
+		if (numberOfCreatedBowls < totalNumberOfBowls) {
+			this.neighbour = new PlayingBowl(this.getPlayer(), firstBowl, numberOfCreatedBowls + 1, startingNumberOfStones, totalNumberOfBowls);
 		} else {
-			this.neighbour = new Kalaha(this.getPlayer(), firstBowl, numbOfCreatedBowls + 1);
+			this.neighbour = new Kalaha(this.getPlayer(), firstBowl, numberOfCreatedBowls + 1, startingNumberOfStones, totalNumberOfBowls);
 		}
-	}
-	
-	@Override
-	public int getNumberOfStartingStones() {
-		return STARTING_NUMBER_OF_STONES;
 	}
 	
 	@Override
@@ -48,10 +53,10 @@ public class PlayingBowl extends Bowl {
 	
 	@Override
 	protected void keepOneStoneAndPassRemaining(int stones) {
-		this.addOneStone();
 		if (stones > 1) {
-			this.getNeighbour().keepOneStoneAndPassRemaining(stones - 1);
+			super.keepOneStoneAndPassRemaining(stones);
 		} else {
+			this.addOneStone();
 			if (this.canStealFromOppositeBowl()) {
 				this.stealFromOppositeBowl();
 			}
@@ -73,7 +78,7 @@ public class PlayingBowl extends Bowl {
 	}
 	
 	private void makeEmpty() {
-		this.NUMBER_OF_STONES = 0;
+		this.numberOfStones = 0;
 	}
 	
 	public void playBowl() {
@@ -95,16 +100,8 @@ public class PlayingBowl extends Bowl {
 	}
 	
 	@Override
-	public Bowl getFirstBowlOfOtherPlayer() {
-		return this.getNeighbour().getFirstBowlOfOtherPlayer();
-	}
-	
-	@Override
-	public boolean allBowlsOfPlayerAreEmpty() {
-		if (this.isEmpty()) {
-			return this.getNeighbour().allBowlsOfPlayerAreEmpty();
-		}
-		return false;
+	public Bowl getFirstBowlOfPlayer(Player player) {
+		return this.getNeighbour().getFirstBowlOfPlayer(player);
 	}
 	
 	@Override

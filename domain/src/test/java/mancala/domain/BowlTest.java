@@ -34,8 +34,8 @@ public class BowlTest {
 	
 	@Test
 	public void boardHas14Bowls() {
-		int numbOfBowls = bowl.getNumberOfBowls();
-		assertEquals(14, numbOfBowls);
+		Bowl nthNeighbour = bowl.getNthNeighbour(14);
+		assertEquals(bowl, nthNeighbour);
 	}
 	
 	@Test

@@ -2,28 +2,21 @@ package mancala.domain;
 
 public class Kalaha extends Bowl {
 	
-	private static final int STARTING_NUMBER_OF_STONES = 0;
+	private static final int STARTING_NUMBER_OF_STONES_DEFAULT = 0;
 	
-	public Kalaha() {
-		super();
-	}
-	
-	public Kalaha(Player player, Bowl firstBowl, int numbOfCreatedBowls) {
-		super(player, firstBowl, numbOfCreatedBowls);
+	public Kalaha(Player player, Bowl firstBowl, int numberOfCreatedBowls, int startingNumberOfStonesOfPlayingBowl, int totalNumberOfBowls) {
+		super(player);
+		this.setNumberOfStartingStones(STARTING_NUMBER_OF_STONES_DEFAULT);
+		this.setNeighbour(firstBowl, numberOfCreatedBowls, startingNumberOfStonesOfPlayingBowl, totalNumberOfBowls);
 	}
 	
 	@Override
-	protected void setNeighbour(Bowl firstBowl, int numbOfCreatedBowls) {
+	protected void setNeighbour(Bowl firstBowl, int numberOfCreatedBowls, int startingNumberOfStonesOfPlayingBowl, int totalNumberOfBowls) {
 		if (this.belongsToActivePlayer()) {
-			this.neighbour = new PlayingBowl(this.getPlayer().getOpponent(), firstBowl, 1);
+			this.neighbour = new PlayingBowl(this.getPlayer().getOpponent(), firstBowl, 1, startingNumberOfStonesOfPlayingBowl, totalNumberOfBowls);
 		} else {
-			this.neighbour = this.getFirstBowl();
+			this.neighbour = firstBowl;
 		}
-	}
-	
-	@Override
-	public int getNumberOfStartingStones() {
-		return STARTING_NUMBER_OF_STONES;
 	}
 	
 	@Override
@@ -41,7 +34,7 @@ public class Kalaha extends Bowl {
 	}
 	
 	private void addStones(int number) {
-		this.NUMBER_OF_STONES += number;
+		this.numberOfStones += number;
 	}
 	
 	@Override
@@ -56,25 +49,18 @@ public class Kalaha extends Bowl {
 	@Override
 	protected void keepOneStoneAndPassRemaining(int stones) {
 		if (this.belongsToActivePlayer()) {
-			this.addOneStone();
-			if (stones > 1) {
-				this.getNeighbour().keepOneStoneAndPassRemaining(stones - 1);
-			}
+			super.keepOneStoneAndPassRemaining(stones);
 		} else {
 			this.getNeighbour().keepOneStoneAndPassRemaining(stones);
 		}
 	}
 	
 	@Override
-	public Bowl getFirstBowlOfOtherPlayer() {
-		return this.getNeighbour();
-	}
-	
-	@Override
-	public boolean allBowlsOfPlayerAreEmpty() {
-		// You can only get here if all the previous
-		// balls of this player are empty.
-		return true;
+	public Bowl getFirstBowlOfPlayer(Player player) {
+		if (this.getPlayer() != player) {
+			return this.getNeighbour();
+		}
+		return this.getNeighbour().getFirstBowlOfPlayer(player);
 	}
 	
 	@Override

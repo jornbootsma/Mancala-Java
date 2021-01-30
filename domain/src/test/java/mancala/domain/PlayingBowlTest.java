@@ -47,13 +47,13 @@ public class PlayingBowlTest {
     
     @Test
     public void lastStoneEndsInKalahaAndStillActivePlayer() {
-    	playingBowl.NUMBER_OF_STONES = 6;
+    	playingBowl.numberOfStones = 6;
     	assertTrue(playingBowl.getPlayer().isActivePlayer());
     }
     
     @Test
     public void playEmptyBowlDoesNotGiveStoneToNeighbour() {
-    	playingBowl.NUMBER_OF_STONES = 0;
+    	playingBowl.numberOfStones = 0;
     	playingBowl.playBowl();
     	assertEquals(4, playingBowl.getNeighbour().getNumberOfStones());
     }
@@ -61,8 +61,8 @@ public class PlayingBowlTest {
     @Test
     public void endInEmptyBowlResultsInStealingFromOpposite() {
     	Bowl opposite = playingBowl.getNeighbour().getOpposite();
-    	playingBowl.NUMBER_OF_STONES = 1;
-    	playingBowl.getNeighbour().NUMBER_OF_STONES = 0;
+    	playingBowl.numberOfStones = 1;
+    	playingBowl.getNeighbour().numberOfStones = 0;
     	playingBowl.playBowl();
     	assertEquals(0, opposite.getNumberOfStones());
     }
@@ -70,8 +70,8 @@ public class PlayingBowlTest {
     @Test
     public void endInEmptyBowlResultsInKalahaReceivingStones() {
     	Bowl kalaha = playingBowl.getKalahaOfActivePlayer();
-    	playingBowl.NUMBER_OF_STONES = 1;
-    	playingBowl.getNeighbour().NUMBER_OF_STONES = 0;
+    	playingBowl.numberOfStones = 1;
+    	playingBowl.getNeighbour().numberOfStones = 0;
     	playingBowl.playBowl();
     	assertEquals(5, kalaha.getNumberOfStones());
     }

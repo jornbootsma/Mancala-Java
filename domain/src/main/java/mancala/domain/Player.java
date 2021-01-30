@@ -17,7 +17,7 @@ public class Player {
 		this(firstPlayerName, secondPlayerName);
 	}
 	
-	public Player(String name) {
+	private Player(String name) {
 		this.name = name;
 	}
 	
@@ -89,14 +89,14 @@ public class Player {
 		return this.gameEnded;
 	}
 	
-	public String getWinner() {
+	public Player getWinner() {
 		if (this.isDraw) {
-			return "Draw";
+			return null;
 		} else if (this.isWinner()) { 
-			return this.getName();
+			return this;
 		} else if (this.getOpponent().isWinner()){
-			return this.getOpponent().getName();
+			return this.getOpponent();
 		}
-		return "Game is not over yet";
+		return null;
 	}
 }

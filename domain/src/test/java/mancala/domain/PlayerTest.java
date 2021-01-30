@@ -9,11 +9,13 @@ public class PlayerTest {
 	
 	@Test
 	public void getName() {
+		Player player = new Player("1", "2");
 		assertEquals("1", player.getName());
 	}
 	
 	@Test
 	public void hasOpponent() {
+		Player player = new Player("1", "2");
 		Player opponent = player.getOpponent();
 		assertEquals("2", opponent.getName());
 	}
@@ -33,6 +35,7 @@ public class PlayerTest {
 	
 	@Test
 	public void getActivePlayer() {
+		Player player = new Player("1", "2");
 		Player activePlayer = player.getActivePlayer();
 		assertEquals("1", activePlayer.getName());
 	}
