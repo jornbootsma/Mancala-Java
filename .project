@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
 	<name>mancala</name>
+<<<<<<< HEAD
 	<comment>Project mancala-java created by Buildship.</comment>
+=======
+	<comment></comment>
+>>>>>>> mainline_jorn
 	<projects>
 	</projects>
 	<buildSpec>
@@ -10,13 +14,28 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+<<<<<<< HEAD
 	</buildSpec>
 	<natures>
+=======
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+>>>>>>> mainline_jorn
 		<nature>org.eclipse.buildship.core.gradleprojectnature</nature>
 	</natures>
 	<filteredResources>
 		<filter>
+<<<<<<< HEAD
 			<id>1614072513353</id>
+=======
+			<id>0</id>
+>>>>>>> mainline_jorn
 			<name></name>
 			<type>30</type>
 			<matcher>
