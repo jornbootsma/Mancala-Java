@@ -41,6 +41,7 @@ export function StartGame({ setGameState }: StartGameProps) {
                 body: JSON.stringify({ nameplayer1: playerOne, nameplayer2: playerTwo })
             });
 
+            console.log(response);
             if (response.ok) {
                 const gameState = await response.json();
                 setGameState(gameState);
