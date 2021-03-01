@@ -20,5 +20,9 @@ export function Mancala() {
         return <StartGame setGameState={setGameState} />
     }
 
+    // if (!gameState.gameStatus.endOfGame) {
     return <Play gameState={gameState} setGameState={setGameState} />
+    // }
+    
+    // return <Winner gameState={gameState} />
 }

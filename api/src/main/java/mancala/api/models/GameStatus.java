@@ -7,18 +7,23 @@ public class GameStatus {
     String winner;
     public String getWinner() { return winner; }
 
-    public GameStatus(mancala.domain.Mancala mancala, 
+    public GameStatus(mancala.domain.PlayingBowl firstBowl, 
             String namePlayer1, String namePlayer2) {
-        this.endOfGame = mancala.isEndOfGame();
-        int winner = mancala.getWinner();
-        if(winner == mancala.NO_PLAYERS) {
+
+        this.endOfGame = firstBowl.getPlayer().gameIsEnded();
+        mancala.domain.Player winner = firstBowl.getWinner();
+
+        if (winner == null && !this.endOfGame) {
             this.winner = null;
-        } else if(winner == mancala.PLAYER_ONE) {
-            this.winner = namePlayer1;
-        } else if(winner == mancala.PLAYER_TWO) {
-            this.winner = namePlayer2;
         } else {
-            this.winner = namePlayer1  + "and" + namePlayer2;
+            if (winner.getName().equals(firstBowl.getPlayer().getName())) {
+                this.winner = firstBowl.getPlayer().getName();
+            } else if (winner.getName().equals(firstBowl.getPlayer().getOpponent().getName())) {
+                this.winner = firstBowl.getPlayer().getOpponent().getName();
+            } else {
+                this.winner = null;
+                // this.winner = namePlayer1  + " and " + namePlayer2;
+            }
         }
     }
 }

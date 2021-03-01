@@ -1,1 +1,32 @@
 /** Add some styles */
+.grid-container {
+    display: grid;
+    grid-template-areas:
+        'playingHeader playingHeader playingHeader'
+        'kalaha2 pitsSecondPlayer kalaha1'
+        'kalaha2 pitsFirstPlayer kalaha1';
+        grid-gap: 10px;
+    background-color: green;
+    padding: 10px;
+    text-align: center;
+    font-size: 30px;
+}
+
+.grid-container > div {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px 0;
+}
+
+.playingHeader { grid-area: playingHeader; }
+.pitsFirstPlayer { grid-area: pitsFirstPlayer; }
+.pitsSecondPlayer { grid-area: pitsSecondPlayer; }
+.kalaha1 { grid-area: kalaha1; }
+.kalaha2 { grid-area: kalaha2; }
+
+button {
+    border: 1px solid black;
+    border-radius: 0.25rem;
+    font-size: 2.0rem;
+    font-weight: bold;
+    margin: 0.5rem;
+}
