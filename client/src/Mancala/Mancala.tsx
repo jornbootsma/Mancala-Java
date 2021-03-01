@@ -16,13 +16,20 @@ export function Mancala() {
 
     const [ gameState, setGameState ] = useState<GameState | undefined>(undefined);
 
+    let storage = window.sessionStorage;
+    if (storage) {
+        let storedGameState = storage.gameState;
+        if (storedGameState) {
+            storedGameState = JSON.parse(storedGameState);
+            if (JSON.stringify(storedGameState) != JSON.stringify(gameState)) {
+                setGameState(storedGameState);
+            }
+        }
+    }
+
     if (!gameState) {
         return <StartGame setGameState={setGameState} />
     }
 
-    // if (!gameState.gameStatus.endOfGame) {
     return <Play gameState={gameState} setGameState={setGameState} />
-    // }
-    
-    // return <Winner gameState={gameState} />
 }

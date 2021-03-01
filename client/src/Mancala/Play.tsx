@@ -3,6 +3,7 @@ import type { GameState } from "../gameState";
 import { Pit } from "./Pit";
 import { PlayingHeader } from "./PlayingHeader";
 import { RevengeButton } from "./RevengeButton";
+import { QuitGameButton } from "./QuitGameButton";
 import "./Play.css";
 
 type PlayProps = {
@@ -12,13 +13,12 @@ type PlayProps = {
 
 export function Play({ gameState, setGameState }: PlayProps) {
 
-    let playingHeader = [] as any;
-    playingHeader.push(<PlayingHeader
+    let playingHeader = <PlayingHeader
                         key={gameState.gameStatus.winner}
                         endOfGame={gameState.gameStatus.endOfGame}
                         winner={gameState.gameStatus.winner}
                         firstPlayer={gameState.players[0]}
-                        secondPlayer={gameState.players[1]}/>);
+                        secondPlayer={gameState.players[1]}/>
     
     let pitsFirstPlayer = [] as any;
     gameState.players[0].pits.forEach(pit => {
@@ -44,9 +44,12 @@ export function Play({ gameState, setGameState }: PlayProps) {
 
     let revengeButton = <RevengeButton key={gameState.gameStatus.endOfGame}
                                        endOfGame={gameState.gameStatus.endOfGame}
-                                       restart={restart}/>
+                                       revenge={revenge}/>
+                            
+    let quitGameButton = <QuitGameButton key={gameState.gameStatus.endOfGame}
+                                         quitGame={quitGame}/>
 
-    async function restart() {
+    async function revenge() {
         try {
             const response = await fetch('mancala/api/start', {
                 method: 'POST',
@@ -59,6 +62,7 @@ export function Play({ gameState, setGameState }: PlayProps) {
 
             if (response.ok) {
                 const restartGameState = await response.json();
+                sessionStorage.setItem("gameState", JSON.stringify(restartGameState));
                 setGameState(restartGameState);
             } else {
                 console.error(response.statusText);
@@ -66,6 +70,11 @@ export function Play({ gameState, setGameState }: PlayProps) {
         } catch (error) {
             console.error(error.toString());
         }
+    }
+
+    async function quitGame() {
+        sessionStorage.removeItem("gameState");
+        setGameState("");
     }
 
     async function tryPlayPit(index: number) {
@@ -85,6 +94,7 @@ export function Play({ gameState, setGameState }: PlayProps) {
             
             if (response.ok) {
                 const newGameState = await response.json();
+                sessionStorage.setItem("gameState", JSON.stringify(newGameState));
                 setGameState(newGameState);
             } else {
                 console.error(response.statusText);
@@ -116,8 +126,12 @@ export function Play({ gameState, setGameState }: PlayProps) {
                 <button disabled={!gameState.players[1].hasTurn}>{gameState.players[1].pits[0].nrOfStones}</button>
             </div>
 
-            <div className="restart">
+            <div className="revenge">
                 {revengeButton}
+            </div>
+
+            <div className="quitGame">
+                {quitGameButton}
             </div>
         </div>
     )

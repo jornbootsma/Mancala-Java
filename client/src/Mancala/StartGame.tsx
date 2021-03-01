@@ -43,6 +43,7 @@ export function StartGame({ setGameState }: StartGameProps) {
 
             if (response.ok) {
                 const gameState = await response.json();
+                sessionStorage.setItem("gameState", JSON.stringify(gameState));
                 setGameState(gameState);
             } else {
                 console.error(response.statusText);

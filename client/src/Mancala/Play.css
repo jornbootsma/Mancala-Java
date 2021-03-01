@@ -5,7 +5,7 @@
         'playingHeader playingHeader playingHeader'
         'kalaha2 pitsSecondPlayer kalaha1'
         'kalaha2 pitsFirstPlayer kalaha1'
-        'restart restart restart';
+        'quitGame revenge revenge';
         grid-gap: 10px;
     background-color: green;
     padding: 10px;
@@ -23,7 +23,8 @@
 .pitsSecondPlayer { grid-area: pitsSecondPlayer; }
 .kalaha1 { grid-area: kalaha1; }
 .kalaha2 { grid-area: kalaha2; }
-.restart { grid-area: restart; }
+.revenge { grid-area: revenge; }
+.quitGame { grid-area: quitGame; }
 
 button {
     border: 1px solid black;
