@@ -2,6 +2,7 @@ import React from "react";
 import type { GameState } from "../gameState";
 import { Pit } from "./Pit";
 import { PlayingHeader } from "./PlayingHeader";
+import { RevengeButton } from "./RevengeButton";
 import "./Play.css";
 
 type PlayProps = {
@@ -40,6 +41,32 @@ export function Play({ gameState, setGameState }: PlayProps) {
             tryPlayPit={tryPlayPit}/>
         );
     });
+
+    let revengeButton = <RevengeButton key={gameState.gameStatus.endOfGame}
+                                       endOfGame={gameState.gameStatus.endOfGame}
+                                       restart={restart}/>
+
+    async function restart() {
+        try {
+            const response = await fetch('mancala/api/start', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ nameplayer1: gameState.players[0].name, nameplayer2: gameState.players[1].name })
+            });
+
+            if (response.ok) {
+                const restartGameState = await response.json();
+                setGameState(restartGameState);
+            } else {
+                console.error(response.statusText);
+            }
+        } catch (error) {
+            console.error(error.toString());
+        }
+    }
 
     async function tryPlayPit(index: number) {
         if (gameState.gameStatus.endOfGame) {
@@ -87,6 +114,10 @@ export function Play({ gameState, setGameState }: PlayProps) {
             
             <div className="kalaha2">
                 <button disabled={!gameState.players[1].hasTurn}>{gameState.players[1].pits[0].nrOfStones}</button>
+            </div>
+
+            <div className="restart">
+                {revengeButton}
             </div>
         </div>
     )

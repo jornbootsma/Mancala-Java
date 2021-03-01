@@ -20,6 +20,7 @@ export function PlayingHeader(props: any) {
     }
 
     return  <div>
-                <p>{vs}{" "}</p> <p>{winnerOrOnTurn}</p>
+                <p>{vs}{" "}</p>
+                <p>{winnerOrOnTurn}</p>
             </div>
 }

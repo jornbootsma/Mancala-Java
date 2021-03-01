@@ -22,7 +22,6 @@ public class GameStatus {
                 this.winner = firstBowl.getPlayer().getOpponent().getName();
             } else {
                 this.winner = null;
-                // this.winner = namePlayer1  + " and " + namePlayer2;
             }
         }
     }

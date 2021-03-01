@@ -4,7 +4,8 @@
     grid-template-areas:
         'playingHeader playingHeader playingHeader'
         'kalaha2 pitsSecondPlayer kalaha1'
-        'kalaha2 pitsFirstPlayer kalaha1';
+        'kalaha2 pitsFirstPlayer kalaha1'
+        'restart restart restart';
         grid-gap: 10px;
     background-color: green;
     padding: 10px;
@@ -22,6 +23,7 @@
 .pitsSecondPlayer { grid-area: pitsSecondPlayer; }
 .kalaha1 { grid-area: kalaha1; }
 .kalaha2 { grid-area: kalaha2; }
+.restart { grid-area: restart; }
 
 button {
     border: 1px solid black;
