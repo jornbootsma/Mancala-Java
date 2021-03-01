@@ -45,6 +45,15 @@ public class Kalaha extends Bowl {
 			this.getNeighbour().passStonesToKalahaOfActivePlayer(stones);
 		}
 	}
+
+	@Override
+	protected void passStonesToKalahaOfPlayer(Player player, int stones) {
+		if (this.getPlayer() == player) {
+			this.addStones(stones);
+		} else {
+			this.getNeighbour().passStonesToKalahaOfPlayer(player, stones);
+		}
+	}
 	
 	@Override
 	protected void keepOneStoneAndPassRemaining(int stones) {

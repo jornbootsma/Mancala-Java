@@ -51,6 +51,8 @@ public abstract class Bowl {
 	}
     
     protected abstract void passStonesToKalahaOfActivePlayer(int stones);
+
+	protected abstract void passStonesToKalahaOfPlayer(Player player, int stones);
     
     protected void keepOneStoneAndPassRemaining(int stones) {
     	this.addOneStone();
@@ -69,6 +71,7 @@ public abstract class Bowl {
 	public void checkIfGameIsOver() {
 		if (this.gameIsOver()) {
 			this.calculateWinner();
+			this.finishGame();
 		}
 	}
 	
@@ -92,6 +95,16 @@ public abstract class Bowl {
 	}
 	
 	public abstract Bowl getFirstBowlOfPlayer(Player player);
+
+	private void finishGame() {
+		Bowl firstBowlOfFirstPlayer = this.getFirstBowlOfPlayer(this.getPlayer());
+		Bowl firstBowlOfSecondPlayer = this.getFirstBowlOfPlayer(this.getPlayer().getOpponent());
+		
+		firstBowlOfFirstPlayer.passAllStonesOfPlayerToOwnKalaha();
+		firstBowlOfSecondPlayer.passAllStonesOfPlayerToOwnKalaha();
+	}
+
+	protected void passAllStonesOfPlayerToOwnKalaha() {  }
 	
 	public int getNumberOfStartingStonesPerPlayingBowl() {
 		Bowl firstBowlOfPlayer = this.getFirstBowlOfPlayer(this.getPlayer());
@@ -142,56 +155,4 @@ public abstract class Bowl {
 	}
 	
 	public abstract int getFinalNumberOfStonesOfPlayer();
-	
-	public static void main(String[] args) {
-    	PlayingBowl bowl1 = new PlayingBowl(4, 6);
-    	
-    	Bowl bowl2 = bowl1.getNeighbour();
-    	Bowl bowl3 = bowl2.getNeighbour();
-    	Bowl bowl4 = bowl3.getNeighbour();
-    	Bowl bowl5 = bowl4.getNeighbour();
-    	Bowl bowl6 = bowl5.getNeighbour();
-    	Bowl bowl7 = bowl6.getNeighbour();
-    	Bowl bowl8 = bowl7.getNeighbour();
-    	Bowl bowl9 = bowl8.getNeighbour();
-    	Bowl bowl10 = bowl9.getNeighbour();
-    	Bowl bowl11 = bowl10.getNeighbour();
-    	Bowl bowl12 = bowl11.getNeighbour();
-    	Bowl bowl13 = bowl12.getNeighbour();
-    	Bowl bowl14 = bowl13.getNeighbour();
-    	Bowl bowl15 = bowl14.getNeighbour();
-    	
-//    	bowl1.playBowl();
-//    	bowl1.getPlayer().changeActivePlayer();
-//    	((PlayingBowl) bowl2).playBowl();
-//    	((PlayingBowl) bowl3).playBowl();
-//    	bowl1.getPlayer().changeActivePlayer();
-//    	((PlayingBowl) bowl4).playBowl();
-//    	bowl1.getPlayer().changeActivePlayer();
-//    	((PlayingBowl) bowl5).playBowl();
-//    	bowl1.getPlayer().changeActivePlayer();
-//    	System.out.println(bowl1.getPlayer().getActivePlayer());
-//    	((PlayingBowl) bowl6).playBowl();
-    	
-    	System.out.println(bowl1.getClass() + "   " + bowl1.getNumberOfStones());
-    	System.out.println(bowl2.getClass() + "   " + bowl2.getNumberOfStones());
-    	System.out.println(bowl3.getClass() + "   " + bowl3.getNumberOfStones());
-    	System.out.println(bowl4.getClass() + "   " + bowl4.getNumberOfStones());
-    	System.out.println(bowl5.getClass() + "   " + bowl5.getNumberOfStones());
-    	System.out.println(bowl6.getClass() + "   " + bowl6.getNumberOfStones());
-    	System.out.println(bowl7.getClass() + "        " + bowl7.getNumberOfStones());
-    	System.out.println(bowl8.getClass() + "   " + bowl8.getNumberOfStones());
-    	System.out.println(bowl9.getClass() + "   " + bowl9.getNumberOfStones());
-    	System.out.println(bowl10.getClass() + "   " + bowl10.getNumberOfStones());
-    	System.out.println(bowl11.getClass() + "   " + bowl11.getNumberOfStones());
-    	System.out.println(bowl12.getClass() + "   " + bowl12.getNumberOfStones());
-    	System.out.println(bowl13.getClass() + "   " + bowl13.getNumberOfStones());
-    	System.out.println(bowl14.getClass() + "        " + bowl14.getNumberOfStones());
-    	System.out.println(bowl15.getClass() + "   " + bowl15.getNumberOfStones());
-    	
-    	System.out.println(bowl2.gameIsOver());
-    	System.out.println(bowl1.getFinalNumberOfStonesOfPlayer());
-    	System.out.println("Number of starting stones: " + bowl1.getNumberOfStartingStonesPerPlayingBowl());
-    	System.out.println(bowl1.getPlayer().getWinner());
-    }
 }

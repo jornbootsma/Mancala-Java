@@ -64,6 +64,7 @@ public class Player {
 	
 	private void setGameEnded() {
 		this.gameEnded = true;
+		this.getOpponent().gameEnded = true;
 	}
 	
 	protected void setWinner() {

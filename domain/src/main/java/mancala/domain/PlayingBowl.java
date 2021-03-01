@@ -9,6 +9,12 @@ public class PlayingBowl extends Bowl {
 		this.setNumberOfStartingStones(STARTING_NUMBER_OF_STONES_DEFAULT);
 		this.setNeighbour(this, 1, STARTING_NUMBER_OF_STONES_DEFAULT, BOWLS_PER_PLAYER_DEFAULT);
 	}
+
+	public PlayingBowl(Player player) {
+		super(player);
+		this.setNumberOfStartingStones(STARTING_NUMBER_OF_STONES_DEFAULT);
+		this.setNeighbour(this, 1, STARTING_NUMBER_OF_STONES_DEFAULT, BOWLS_PER_PLAYER_DEFAULT);
+	}
 	
 	public PlayingBowl(int startingNumberOfStones, int totalNumberOfBowls) {
 		super();
@@ -50,6 +56,16 @@ public class PlayingBowl extends Bowl {
 		this.passStonesToKalahaOfActivePlayer(this.getNumberOfStones());
 		this.makeEmpty();
 	}
+
+	@Override
+	protected void passStonesToKalahaOfPlayer(Player player, int stones) {
+		this.getNeighbour().passStonesToKalahaOfPlayer(player, stones);
+	}
+
+	private void emptyBowlAndPassAllStonesToKalahaOfPlayer(Player player) {
+		this.passStonesToKalahaOfPlayer(player, this.getNumberOfStones());
+		this.makeEmpty();
+	}
 	
 	@Override
 	protected void keepOneStoneAndPassRemaining(int stones) {
@@ -83,7 +99,7 @@ public class PlayingBowl extends Bowl {
 	
 	public void playBowl() {
 		int numbOfPassingStones = this.getNumberOfStones();
-		if (numbOfPassingStones > 0) {
+		if (numbOfPassingStones > 0 && this.getPlayer().isActivePlayer()) {
 			this.makeEmpty();
 			this.getNeighbour().keepOneStoneAndPassRemaining(numbOfPassingStones);
 			if (this.isLastBowlOfPlayer()) {
@@ -93,10 +109,7 @@ public class PlayingBowl extends Bowl {
 	}
 	
 	private boolean isLastBowlOfPlayer() {
-		if (this.getNeighbour() instanceof Kalaha) {
-			return true;
-		}
-		return false;
+		return this.getNeighbour() instanceof Kalaha ? true : false;
 	}
 	
 	@Override
@@ -107,5 +120,11 @@ public class PlayingBowl extends Bowl {
 	@Override
 	public int getFinalNumberOfStonesOfPlayer() {
 		return this.getNumberOfStones() + this.getNeighbour().getFinalNumberOfStonesOfPlayer();
+	}
+
+	@Override
+	protected void passAllStonesOfPlayerToOwnKalaha() {
+		this.emptyBowlAndPassAllStonesToKalahaOfPlayer(this.getPlayer());
+		this.getNeighbour().passAllStonesOfPlayerToOwnKalaha();
 	}
 }
