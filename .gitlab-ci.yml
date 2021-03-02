@@ -1,7 +1,5 @@
 build-job:
   stage: build
-  before_script:
-    - export JAVA_HOME="C:\Program Files\Java\jdk-15.0.1"
   script:
     - echo "Hello, $GITLAB_USER_LOGIN!"
     - ./gradlew build
