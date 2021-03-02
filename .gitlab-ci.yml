@@ -4,8 +4,6 @@ build-job:
     - echo "Hello, $GITLAB_USER_LOGIN!"
 
 test-job1:
-  tags:
-    - mancala
   stage: test
   script:
     - echo "This job tests something"
