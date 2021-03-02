@@ -39,8 +39,51 @@ public class BowlTest {
 	}
 	
 	@Test
-    public void gameIsOver() {
+    public void gameIsNotOverAtStart() {
     	boolean gameIsOver = bowl.gameIsOver();
     	assertFalse(gameIsOver);
     }
+
+	@Test
+	public void playerHasNoStonesAndGameIsOver() {
+		bowl = new PlayingBowl(4, 6);
+		for (int i = 0; i < 6; i++) {
+			bowl.getNthNeighbour(i).numberOfStones = 0;
+		}
+		bowl.checkIfGameIsOver();
+		assertTrue(bowl.gameIsOver());
+	}
+
+	@Test
+	public void noWinnerAtStart() {
+		assertEquals(null, bowl.getWinner());
+	}
+
+	@Test
+	public void calculateWinnerReturnsNull() {
+		bowl.calculateWinner();
+		assertEquals(null, bowl.getWinner());
+	}
+
+	@Test
+	public void firstPlayerWins() {
+		Player player = new Player("Mario", "Luigi");
+		Bowl bowl = new PlayingBowl(player);
+		for (int i = 0; i < 6; i++) {
+			bowl.getNthNeighbour(i).numberOfStones = 0;
+		}
+		bowl.calculateWinner();
+		assertEquals("Luigi", bowl.getWinner().getName());
+	}
+
+	@Test
+	public void gameIsOverAndAllStonesArePassedToKalaha() {
+		bowl = new PlayingBowl(4, 6);
+		for (int i = 0; i < 6; i++) {
+			bowl.getNthNeighbour(i).numberOfStones = 0;
+		}
+		bowl.checkIfGameIsOver();
+		Bowl kalahaOfOpponent = bowl.getNthNeighbour(13);
+		assertEquals(24, kalahaOfOpponent.getNumberOfStones());
+	}
 }
