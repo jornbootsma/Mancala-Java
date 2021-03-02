@@ -2,8 +2,7 @@ build-job:
   stage: build
   script:
     - echo "Hello, $GITLAB_USER_LOGIN!"
-    - echo "Hello, $env:JAVA_HOME"
-    - ./gradlew assemble
+    - ./gradlew build
 
 test-job:
   stage: test
