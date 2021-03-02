@@ -8,7 +8,7 @@ import jakarta.servlet.http.*;
 import jakarta.ws.rs.core.*;
 
 import mancala.api.models.*;
-import mancala.domain.MancalaImpl;
+import mancala.domain.Bowl;
 
 public class StartMancalaTest {
     @Test
@@ -60,7 +60,7 @@ public class StartMancalaTest {
     @Test
     public void startingMancalaSavesTheNewGameInASession() {
         startMancala("Mario", "Luigi");
-        verify(session).setAttribute(eq("mancala"), any(MancalaImpl.class));
+        verify(session).setAttribute(eq("firstBowl"), any(Bowl.class));
     }
 
     @Test
