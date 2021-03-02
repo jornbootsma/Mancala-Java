@@ -1,3 +1,7 @@
+job:
+  tags:
+    - mancala
+
 build-job:
   stage: build
   script:
