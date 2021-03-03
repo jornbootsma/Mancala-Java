@@ -1,4 +1,8 @@
-image: gradle:latest
+# image: gradle:latest
+
+language: java
+jdk:
+  - openjdk11
 
 build-job:
   stage: build
