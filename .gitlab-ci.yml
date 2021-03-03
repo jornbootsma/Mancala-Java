@@ -19,7 +19,7 @@ test-domain:
   artifacts:
     when: always
     reports:
-      junit: build/test-results/test/**/TEST-*.xml
+      junit: domain/build/test-results/test/**/TEST-*.xml
 
 test-api:
   stage: test
@@ -31,4 +31,4 @@ test-api:
     when: always
     expire_in: never
     reports:
-      junit: build/test-results/test/**/TEST-*.xml
+      junit: api/build/test-results/test/**/TEST-*.xml
