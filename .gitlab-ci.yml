@@ -1,11 +1,5 @@
 image: openjdk:15
 
-variables:
-  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
-
-before_script:
-  - export GRADLE_USER_HOME=`pwd`/.gradle
-
 stages:
   - build
   - test
@@ -23,11 +17,22 @@ test-domain:
     - echo "Running domain tests"
     - cd domain
     - ../gradlew test
-  # artifacts:
-  #   when: always
-  #   reports:
-  #     junit: build/test-results/test/**/TEST-*.xml
+  artifacts:
+    when: always
+    reports:
+      junit: build/test-results/test/**/TEST-*.xml
 
+test-api:
+  stage: test
+  script:
+    - echo "Running api tests"
+    - cd api
+    - ../gradlew test
+  artifacts:
+    when: always
+    expire_in: never
+    reports:
+      junit: build/test-results/test/**/TEST-*.xml
 
 # deploy-prod:
 #   stage: deploy
