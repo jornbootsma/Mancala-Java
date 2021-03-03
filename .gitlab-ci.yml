@@ -1,18 +1,25 @@
 image: openjdk:15
 
+variables:
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+
+stages:
+  - build
+  = test
+
 build-job:
   stage: build
   script:
-    - echo "Hello, $GITLAB_USER_LOGIN!"
+    - echo "Building files"
     - ./gradlew assemble
 
 test-job:
   stage: test
   script:
-    - echo "This job tests something"
-    # - ./gradlew test
+    - echo "Running tests"
+    - ./gradlew test
 
 deploy-prod:
   stage: deploy
   script:
-    - echo "This job deploys something from the $CI_COMMIT_BRANCH branch."
+    - echo "This job deploys nothing yet."
