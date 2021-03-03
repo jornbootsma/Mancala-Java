@@ -1,3 +1,5 @@
+imaga: gradle:latest
+
 build-job:
   stage: build
   script:
