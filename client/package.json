@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "start": "snowpack dev",
+    "build": "snowpack build",
     "lint": "eslint src/**/*.{ts,tsx}"
   },
   "dependencies": {
