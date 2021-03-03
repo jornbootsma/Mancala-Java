@@ -1,4 +1,4 @@
-imaga: gradle:latest
+image: gradle:latest
 
 build-job:
   stage: build
