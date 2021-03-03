@@ -9,21 +9,27 @@ before_script:
 stages:
   - build
   - test
-  - deploy
+  # - deploy
 
-build-job:
+build-project:
   stage: build
   script:
     - echo "Building files"
     - ./gradlew assemble
 
-test-job:
+test-domain:
   stage: test
   script:
-    - echo "Running tests"
-    - ./gradlew test
+    - echo "Running domain tests"
+    - cd domain
+    - ../gradlew test
+  # artifacts:
+  #   when: always
+  #   reports:
+  #     junit: build/test-results/test/**/TEST-*.xml
 
-deploy-prod:
-  stage: deploy
-  script:
-    - echo "This job deploys nothing yet."
+
+# deploy-prod:
+#   stage: deploy
+#   script:
+#     - echo "This job deploys nothing yet."
