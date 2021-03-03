@@ -1,10 +1,8 @@
-image: openjdk:15
+image: gradle:6.6.1-jdk11
 
 stages:
   - build
   - test
-  # - deploy
-  - visualize
 
 build-project:
   stage: build
@@ -18,13 +16,10 @@ test-domain:
     - echo "Running domain tests"
     - cd domain
     - ../gradlew test
-    - 'gradle test jacocoTestReport'
   artifacts:
     when: always
     reports:
       junit: build/test-results/test/**/TEST-*.xml
-    paths:
-      - build/jacoco/jacoco.xml
 
 test-api:
   stage: test
@@ -37,22 +32,3 @@ test-api:
     expire_in: never
     reports:
       junit: build/test-results/test/**/TEST-*.xml
-
-# deploy-prod:
-#   stage: deploy
-#   script:
-#     - echo "This job deploys nothing yet."
-
-coverage-domain:
-  stage: visualize
-  image: haynes/jacoco2cobertura:1.0.4
-  script:
-    - cd domain
-    - 'python /opt/cover2cover.py build/jacoco/jacoco.xml src/main/java > build/cobertura.xml'
-    - 'python /opt/source2filename.py build/cobertura.xml'
-  needs: ["test-domain"]
-  dependencies:
-    - test-domain
-  artifacts:
-    reports:
-      cobertura: build/cobertura.xml
