@@ -1,7 +1,8 @@
+image: java:8-jdk
+
 build-job:
   stage: build
   script:
-    - apt-get install -y oracle-java8-installer
     - echo "Hello, $GITLAB_USER_LOGIN!"
     - ./gradlew build
 
