@@ -4,7 +4,7 @@ stages:
   - build
   - test
   # - deploy
-  - coverage-domain
+  - visualize
 
 build-project:
   stage: build
