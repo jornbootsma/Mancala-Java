@@ -18,10 +18,13 @@ test-domain:
     - echo "Running domain tests"
     - cd domain
     - ../gradlew test
+    - 'gradle test jacocoTestReport'
   artifacts:
     when: always
     reports:
       junit: build/test-results/test/**/TEST-*.xml
+    paths:
+      - build/jacoco/jacoco.xml
 
 test-api:
   stage: test
