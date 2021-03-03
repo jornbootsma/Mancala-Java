@@ -1,8 +1,7 @@
-# image: java:latest
-
 build-job:
   stage: build
   script:
+    - ./gradlew clean
     - echo "Hello, $GITLAB_USER_LOGIN!"
     - ./gradlew build
 
