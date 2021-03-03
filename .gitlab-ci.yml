@@ -1,5 +1,3 @@
-image: gradle:alpine
-
 build-job:
   stage: build
   script:
