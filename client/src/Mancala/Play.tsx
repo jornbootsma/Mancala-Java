@@ -74,7 +74,7 @@ export function Play({ gameState, setGameState }: PlayProps) {
 
     async function quitGame() {
         sessionStorage.removeItem("gameState");
-        setGameState("");
+        location.reload();
     }
 
     async function tryPlayPit(index: number) {
