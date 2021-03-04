@@ -18,6 +18,7 @@ test-domain:
     - ../gradlew test
   artifacts:
     when: always
+    expire_in: 30 minutes
     reports:
       junit: domain/build/test-results/test/**/TEST-*.xml
 
