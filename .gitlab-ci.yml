@@ -1,5 +1,8 @@
 image: gradle:6.6.1-jdk11
 
+variables:
+  JACOCO_CSV_LOCATION: '$CI_PROJECT_DIR/build/jacocoCsv'
+
 stages:
   - build
   - test
@@ -16,9 +19,10 @@ test-domain:
     - echo "Running domain tests"
     - cd domain
     - ../gradlew test
+    - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' $JACOCO_CSV_LOCATION
   artifacts:
     when: always
-    expire_in: 30 minutes
+    expire_in: never
     reports:
       junit: domain/build/test-results/test/**/TEST-*.xml
 
