@@ -2,6 +2,7 @@ plugins {
     // Tell Gradle that we are builing java as a library (non-executable piece of code intended for use by other applications).
     id 'java'
     id 'java-library'
+    id 'jacoco'
 }
 
 repositories {
@@ -18,4 +19,19 @@ dependencies {
 test {
     // For running our tests, use the test runner provided by JUnit.
     useJUnitPlatform()
+    finalizedBy jacocoTestReport // report is always generated after tests run
+}
+
+jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination file("${buildDir}/jacocoHtml")
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.6"
+    reportsDirectory = file("$buildDir/customJacocoReportDir")
 }
