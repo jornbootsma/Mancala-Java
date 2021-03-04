@@ -2,7 +2,7 @@
 image: openjdk:15
 
 variables:
-  JACOCO_CSV_LOCATION: '$CI_PROJECT_DIR/domain/build/jacocoCsv'
+  JACOCO_CSV_LOCATION_DOMAIN: '$CI_PROJECT_DIR/domain/build/jacocoCsv'
 
 stages:
   - build
@@ -20,13 +20,13 @@ test-domain:
     - echo "Running domain tests"
     - cd domain
     - ../gradlew test
-    - - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' $JACOCO_CSV_LOCATION
+    - - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' $JACOCO_CSV_LOCATION_DOMAIN
   artifacts:
     when: always
     expire_in: never
     reports:
       junit: domain/build/test-results/test/**/TEST-*.xml
-      metrics: domain/build/jacocoCsv.csv
+      metrics: domain/build/jacocoCsv
 
 test-api:
   stage: test
