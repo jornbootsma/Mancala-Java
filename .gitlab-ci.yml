@@ -2,7 +2,7 @@
 image: openjdk:15
 
 variables:
-  JACOCO_CSV_LOCATION: '$CI_PROJECT_DIR/build/jacocoCsv'
+  JACOCO_CSV_LOCATION: '$CI_PROJECT_DIR/build/reports/jacoco'
 
 stages:
   - build
