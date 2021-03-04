@@ -3,6 +3,7 @@ plugins {
     id 'java'
     // This time we're building a command-line executable application.
     id 'application'
+    id 'jacoco'
 }
 
 repositories {
@@ -47,4 +48,17 @@ application {
 test {
     // Use junit platform for unit tests
     useJUnitPlatform()
+    finalizedBy jacocoTestReport // report is always generated after tests run
+}
+
+jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
+    reports {
+        csv.enabled true
+        csv.destination file("${buildDir}/jacocoCsv")
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.6"
 }
