@@ -26,6 +26,7 @@ test-domain:
     expire_in: never
     reports:
       junit: domain/build/test-results/test/**/TEST-*.xml
+      metrics: domain/build/jacocoCsv.csv
 
 test-api:
   stage: test
