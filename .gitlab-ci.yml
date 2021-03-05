@@ -2,7 +2,7 @@
 image: openjdk:15
 
 include:
-  - template: Dependency-Scanning.gitlab-ci.yml
+  - template: Security/Dependency-Scanning.gitlab-ci.yml
 
 variables:
   JACOCO_CSV_LOCATION_DOMAIN: '$CI_PROJECT_DIR/domain/build/jacocoCsv'
