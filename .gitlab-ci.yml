@@ -6,7 +6,6 @@ include:
 
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
-  JACOCO_CSV_LOCATION: '$CI_PROJECT_DIR/jacocoCsv'
   JACOCO_CSV_LOCATION_DOMAIN: '$CI_PROJECT_DIR/domain/build/jacocoCsv'
   JACOCO_CSV_LOCATION_API: '$CI_PROJECT_DIR/api/build/jacocoCsv'
   SECURE_LOG_LEVEL: error
@@ -28,13 +27,13 @@ test-domain:
     - echo "Running domain tests"
     - cd domain
     - ../gradlew test
-    - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' $JACOCO_CSV_LOCATION_DOMAIN
+    # - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' $JACOCO_CSV_LOCATION_DOMAIN
   artifacts:
     when: always
     expire_in: never
     reports:
       junit: domain/build/test-results/test/**/TEST-*.xml
-      metrics: domain/build/jacocoCsv
+      # metrics: domain/build/jacocoCsv
 
 test-api:
   stage: test
@@ -42,20 +41,32 @@ test-api:
     - echo "Running api tests"
     - cd api
     - ../gradlew test
-    - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' $JACOCO_CSV_LOCATION_API
+    # - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' $JACOCO_CSV_LOCATION_API
   artifacts:
     when: always
     expire_in: never
     reports:
       junit: api/build/test-results/test/**/TEST-*.xml
-      metrics: api/build/jacocoCsv
+      # metrics: api/build/jacocoCsv
 
-jacoco:
+coverage-domain:
   stage: visualize
   script:
-    - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' $JACOCO_CSV_LOCATION
+    - cd domain
+    - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' $JACOCO_CSV_LOCATION_DOMAIN
   artifacts:
     when: always
     expire_in: never
     reports:
-      metrics: jacocoCsv
+      metrics: domain/build/jacocoCsv
+
+coverage-api:
+  stage: visualize
+  script:
+    - cd api
+    - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' $JACOCO_CSV_LOCATION_API
+  artifacts:
+    when: always
+    expire_in: never
+    reports:
+      metrics: api/build/jacocoCsv
