@@ -1,5 +1,5 @@
-image: gradle:6.6.1-openjdk:11
-# image: openjdk:15
+# image: gradle:6.6.1-openjdk:11
+image: openjdk:15
 
 include:
   - template: Security/Dependency-Scanning.gitlab-ci.yml
