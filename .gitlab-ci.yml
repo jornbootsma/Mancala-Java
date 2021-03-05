@@ -8,6 +8,7 @@ variables:
   JACOCO_CSV_LOCATION_DOMAIN: '$CI_PROJECT_DIR/domain/build/jacocoCsv'
   JACOCO_CSV_LOCATION_API: '$CI_PROJECT_DIR/api/build/jacocoCsv'
   SECURE_LOG_LEVEL: error
+  DS_DISABLE_DIND: "true" # disable docker-in-docker for dependency scanning
 
 stages:
   - build
