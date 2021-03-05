@@ -6,6 +6,7 @@ include:
 
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+  JACOCO_CSV_LOCATION: '$CI_PROJECT_DIR/jacocoCsv'
   JACOCO_CSV_LOCATION_DOMAIN: '$CI_PROJECT_DIR/domain/build/jacocoCsv'
   JACOCO_CSV_LOCATION_API: '$CI_PROJECT_DIR/api/build/jacocoCsv'
   SECURE_LOG_LEVEL: error
@@ -13,6 +14,7 @@ variables:
 stages:
   - build
   - test
+  - visualize
 
 build-project:
   stage: build
@@ -47,3 +49,13 @@ test-api:
     reports:
       junit: api/build/test-results/test/**/TEST-*.xml
       metrics: api/build/jacocoCsv
+
+jacoco:
+  stage: visualize
+  script:
+    - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' $JACOCO_CSV_LOCATION
+  artifacts:
+    when: always
+    expire_in: never
+    reports:
+      metrics: jacocoCsv
