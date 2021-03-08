@@ -1,5 +1,5 @@
 # image: gradle:6.6.1-openjdk:11
-image: openjdk:15
+image: openjdk:11
 
 include:
   - template: Security/Dependency-Scanning.gitlab-ci.yml
@@ -13,7 +13,8 @@ variables:
 stages:
   - build
   - test
-  - visualize
+  - coverageTest
+  - imageBuild
 
 build-project:
   stage: build
@@ -29,7 +30,6 @@ test-domain:
     - echo "Running domain tests"
     - cd domain
     - ../gradlew test
-    # - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' $JACOCO_CSV_LOCATION_DOMAIN
   artifacts:
     paths:
       - domain/build/jacocoCsv
@@ -37,7 +37,6 @@ test-domain:
     expire_in: never
     reports:
       junit: domain/build/test-results/test/**/TEST-*.xml
-      # metrics: domain/build/jacocoCsv
 
 test-api:
   stage: test
@@ -45,7 +44,6 @@ test-api:
     - echo "Running api tests"
     - cd api
     - ../gradlew test
-    # - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' $JACOCO_CSV_LOCATION_API
   artifacts:
     paths:
       - api/build/jacocoCsv
@@ -53,10 +51,9 @@ test-api:
     expire_in: never
     reports:
       junit: api/build/test-results/test/**/TEST-*.xml
-      # metrics: api/build/jacocoCsv
 
 coverage-domain:
-  stage: visualize
+  stage: coverageTest
   script:
     - cd domain
     - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' $JACOCO_CSV_LOCATION_DOMAIN
@@ -67,7 +64,7 @@ coverage-domain:
       metrics: domain/build/jacocoCsv
 
 coverage-api:
-  stage: visualize
+  stage: coverageTest
   script:
     - cd api
     - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' $JACOCO_CSV_LOCATION_API
@@ -76,3 +73,12 @@ coverage-api:
     expire_in: never
     reports:
       metrics: api/build/jacocoCsv
+
+build-docker-image:
+  stage: imageBuild
+  image: docker:19.03.12
+  services:
+    - docker:19.03.12-dind
+  script:
+    - docker build -t openjdk:11 .
+    - docker run -t --rm openjdk:11 
